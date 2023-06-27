@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scraping Result</title>
+</head>
+<body>
+    <h1>Scraping Result</h1>
+
+    <h2>Classes:</h2>
+    <ul>
+    {% for tag in class_names %}
+    <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Complete HTML Code:</h2>
+    <pre>{{ complete_html }}</pre>
+
+    <h2>HTML Tags:</h2>
+    <ul>
+    {% for tag in html_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>CSS Code:</h2>
+    <ul>
+    {% for tag in css_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>JavaScript Code:</h2>
+    <ul>
+    {% for tag in js_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    
+
+    <h2>Tags:</h2>
+    <ul>
+    {% for tag in tag_names %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Attributes:</h2>
+    <ul>
+    {% for attribute in attribute_names %}
+        <li>{{ attribute }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Scraping App</title>
+</head>
+<body>
+    <h1>Web Scraping App</h1>
+    <form action="{{ url_for('index') }}" method="POST">
+        <input type="text" name="url" placeholder="Enter URL">
+       
+        <button type="submit" name="action" value="scrape_names">Scrape Names</button>
+    </form>
+
+    {% if html_content %}
+        <h2>Full HTML:</h2>
+        <a href="{{ url_for('result', url=url) }}">Click here to view the full HTML</a>
+    {% endif %}
+
+    <h2>Classes:</h2>
+    <ul>
+        {% for tag in class_names %}
+        <li><a href="{{ url_for('scrape_class', class_name=tag) }}?url={{ url }}">{{ tag }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tags:</h2>
+    <ul>
+        {% for tag in tag_names %}
+            <li><a href="{{ url_for('scrape_tag', tag_name=tag) }}?url={{ url }}">{{ tag }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Attributes:</h2>
+    <ul>
+        {% for attribute in attribute_names %}
+            <li><a href="{{ url_for('scrape_attribute', attribute_name=attribute) }}?url={{ url }}">{{ attribute }}</a></li>
+        {% endfor %}
+
+    </ul>
+    <h2>HTML Tags:</h2>
+    <ul>
+    {% for tag in html_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>CSS Code:</h2>
+    <ul>
+    {% for tag in css_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>JavaScript Code:</h2>
+    <ul>
+    {% for tag in js_tags %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+    
+    
+</body>
+</html>
