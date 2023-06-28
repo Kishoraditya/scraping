@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from bs4 import BeautifulSoup
 import requests
 from urllib.parse import urlparse
+import logging, io
 
 app = Flask(__name__)
 
@@ -12,10 +13,13 @@ def index():
         action = request.form['action']
         response = requests.get(url)
         html_content = response.text
+        log_messages = []  # List to store log messages
+        log_handlers = app.logger.handlers  # Get the logger handlers
 
         soup = BeautifulSoup(html_content, 'html.parser')
         complete_html = soup.prettify()
 
+        
         if action == 'scrape_names':
             html_tags = soup.find_all()
             css_tags = soup.find_all('style')
@@ -47,8 +51,17 @@ def index():
                 if names not in unique_attribute_names:
                     unique_attribute_names.append(names)
 
+            for handler in log_handlers:
+                if isinstance(handler, logging.StreamHandler) and isinstance(handler.stream, io.TextIOBase):
+                    try:
+                        handler.stream.seek(0)  # Move the stream cursor to the beginning
+                        log_content = handler.stream.read()
+                        log_messages.extend(log_content.splitlines())
+                    except (io.UnsupportedOperation, AttributeError):
+                            log_messages.append("Encountered an unreadable stream")
+                
             return render_template('index.html',class_names=unique_class_names, tag_names=unique_tag_names, attribute_names=unique_attribute_names, url=url, html_content=complete_html, html_tags=html_tags,
-                                   css_tags=css_tags, js_tags=js_tags)
+                                   css_tags=css_tags, js_tags=js_tags, log_messages=log_messages)
 
     return render_template('index.html')
 @app.route('/scrape-class/<class_name>', methods=['GET'])
