@@ -1,17 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Scraped Data</title>
-</head>
-<body>
-    <h1>Scraped Data for Class: {{ class_name }}</h1>
+    <head>
+        <title>Scraped Data</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="container">
+                <h1>Scraped Data for Class: {{ class_name }}</h1>
+            </div>
+        </div>
+    
+        <div class="menu">
+            <div class="container">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
 
-    <ul>
-    {% for data_item in data %}
-        <li>{{ data_item }}</li>
-    {% endfor %}
-    </ul>
-    <h2>Complete HTML Code:</h2>
-    <pre>{{ html_content }}</pre>
-</body>
+        <div class="container scraped-data-content">
+
+            <ul>
+            {% for data_item in data %}
+                <li>{{ data_item }}</li>
+            {% endfor %}
+            </ul>
+            <h2>Complete HTML Code:</h2>
+            <pre>{{ html_content }}</pre>
+        </div>
+        <div class="footer">
+            <div class="container">
+                &copy; 2023 Web Scraping App | Contact Us: info@webscrapingapp.com
+            </div>
+        </div>
+    
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        
+    </body>
 </html>
