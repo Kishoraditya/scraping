@@ -28,6 +28,15 @@
                 <button type="submit" name="action" value="scrape_names">Submit</button>
             </form>
 
+            {% if log_messages %}
+                <h2>Log Messages:</h2>
+                <ul>
+                    {% for message in log_messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             {% if html_content %}
                 <h2>Full HTML:</h2>
                 <a href="{{ url_for('result', url=url) }}">Click here to view the full HTML</a>
