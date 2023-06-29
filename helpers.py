@@ -6,12 +6,12 @@ def get_html_content(url):
     html_content = response.text
     return html_content
 
-
-def get_unique_class_names(soup):
-    elements_with_class = soup.find_all(class_=True)
-    class_names = [element['class'] for element in elements_with_class]
-    unique_class_names = list(set(name for names_list in class_names for name in names_list))
-    return unique_class_names
+def get_unique_class_names(soup2):
+    elements_with_class = soup2.find_all(class_=True)
+    class_groups = [tuple(element['class']) for element in elements_with_class]
+    unique_class_groups = [', '.join(group) for group in set(class_groups)]
+    unique_class_names = list(set(name for names_list in class_groups for name in names_list))
+    return unique_class_groups, unique_class_names
 
 
 def get_unique_tag_names(soup):
@@ -20,7 +20,6 @@ def get_unique_tag_names(soup):
     unique_tag_names = list(set(tag_names))
     return unique_tag_names
 
-
 def get_unique_attribute_names(soup):
     attribute_names = set()
     for element in soup.find_all(True):
@@ -28,15 +27,16 @@ def get_unique_attribute_names(soup):
     unique_attribute_names = list(attribute_names)
     return unique_attribute_names
 
-
-def get_scraped_data(html_content, target, attrs=None):
+def get_scraped_data(html_content, target=None, attrs=None):
     soup = BeautifulSoup(html_content, 'html.parser')
-    elements = []
+    scraped_data = []
 
-    if attrs:
-        elements = soup.find_all(attrs=attrs)
-    elif target:
-        elements = soup.find_all(target)
+    if target:
+        elements = soup.find_all(target, attrs=attrs)
+        for element in elements:
+            scraped_data.append({
+                'class': element.get('class', []),
+                # Add more key-value pairs if needed
+            })
 
-    scraped_data = [element.text.strip() for element in elements]
     return scraped_data

@@ -1,6 +1,3 @@
-from bs4 import BeautifulSoup
-
-
 def paginate_elements(elements, page_size, current_page):
     total_elements = len(elements)
     total_pages = (total_elements + page_size - 1) // page_size
